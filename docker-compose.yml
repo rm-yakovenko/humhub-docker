@@ -1,0 +1,30 @@
+version: '2'
+services:
+    db:
+        image: mariadb
+        volumes:
+            - ./protected/runtime/db/:/var/lib/mysql
+        ports:
+            - 3307:3306
+        environment:
+            - MYSQL_DATABASE=humhub
+            - MYSQL_USER=humhub
+            - MYSQL_PASSWORD=hubhum
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    app:
+        build: ./docker/app
+        working_dir: /var/www/app
+        volumes:
+            - ./:/var/www/app:rw
+        links:
+            - db
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - 8080:80
+        links:
+            - app
+        volumes_from:
+            - app
+        volumes:
+            - ./protected/runtime/nginx/:/var/log/nginx
