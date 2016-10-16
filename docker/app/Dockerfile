@@ -1,9 +1,9 @@
 FROM php:7-fpm
 
 RUN apt-get -y -qq update
-RUN apt-get -y -qq install  autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libpng-dev libicu-dev git libldb-dev libldap2-dev libxml2-dev
+RUN apt-get -y -qq install  autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libpng-dev libicu-dev git libldb-dev libldap2-dev libxml2-dev libjpeg-dev libfreetype6-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so
-RUN docker-php-ext-install gd curl iconv json intl opcache xml phar zip ldap pdo_mysql exif
+RUN docker-php-ext-install -j4 gd curl iconv json intl opcache xml phar zip ldap pdo_mysql exif
 
 RUN rm -rf /var/cache/apt/* && rm -rf /tmp/*
 
